@@ -4,7 +4,6 @@
 cooldown:
   enabled: true # Enable Cooldown or not
   time: 60 # Cooldown time between use (seconds)
-  bypass-for-operators: true
   allow-op-bypass-cooldown: true
   bypass-cooldown-permission: "wild.bypasscooldown"
 
