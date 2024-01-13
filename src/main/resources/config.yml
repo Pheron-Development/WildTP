@@ -6,6 +6,7 @@ cooldown:
   time: 60 # Cooldown time between use (seconds)
   bypass-for-operators: true
   allow-op-bypass-cooldown: true
+  bypass-cooldown-permission: "wild.bypasscooldown"
 
 # Messages
 cooldown-message: "Please wait %time% seconds before using /wild again." # Configure the message when you need to wait for the cooldown
