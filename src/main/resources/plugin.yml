@@ -1,0 +1,7 @@
+name: WildTP
+version: '${project.version}'
+main: lol.vifez.WildTP
+
+commands:
+  wild:
+    description: "Teleports you to a random location"

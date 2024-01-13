@@ -1,0 +1,11 @@
+# Welcome to WildTP, This was developed by Vifez from Zephion Studios
+
+# Settings
+cooldown:
+  enabled: true # Enable Cooldown or not
+  time: 60 # Cooldown time between use (seconds)
+
+# Messages
+cooldown-message: "Please wait %time% seconds before using /wild again." # Configure the message when you need to wait for the cooldown
+command-message: "&aTeleported you to a random place." # Message upon command use
+no-permission-message: "cYou do not have permission to use this command!" # If you try teleporting without permission
