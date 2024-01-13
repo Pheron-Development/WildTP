@@ -18,7 +18,6 @@ public class WildTP extends JavaPlugin implements CommandExecutor {
 
     @Override
     public void onEnable() {
-        // startup shit
         getLogger().info("---------------------------------------------");
         getLogger().info("WildTP - [" + getDescription().getVersion() + "]");
         getLogger().info(" ");
@@ -34,31 +33,33 @@ public class WildTP extends JavaPlugin implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "Only players can use this command!");
+            getLogger().info("only players can use this command!");
             return true;
         }
 
         Player player = (Player) sender;
 
         if (cmd.getName().equalsIgnoreCase("wild")) {
-            if (!player.hasPermission("wild.use")) {
-                player.sendMessage(ChatColor.RED + "You dont have permission to use this command!");
+            if (!player.hasPermission("wild.use") && !player.isOp() && !player.hasPermission(getConfig().getString("bypass-cooldown-permission"))) {
+                player.sendMessage(ChatColor.RED + getConfig().getString("no-permission-message"));
                 return true;
             }
 
-            if (getConfig().getBoolean("cooldown.enabled") && cooldowns.containsKey(player.getName())) {
-                long secondsLeft = ((cooldowns.get(player.getName()) / 1000) + getConfig().getInt("cooldown.time")) - (System.currentTimeMillis() / 1000);
-                if (secondsLeft > 0) {
-                    player.sendMessage(ChatColor.RED + getConfig().getString("cooldown-message").replace("%time%", String.valueOf(secondsLeft)));
-                    return true;
+            if (!player.isOp() || (getConfig().getBoolean("cooldown.bypass-for-operators") && player.isOp()) || player.hasPermission(getConfig().getString("bypass-cooldown-permission"))) {
+                if (getConfig().getBoolean("cooldown.enabled") && cooldowns.containsKey(player.getName())) {
+                    long secondsLeft = ((cooldowns.get(player.getName()) / 1000) + getConfig().getInt("cooldown.time")) - (System.currentTimeMillis() / 1000);
+                    if (secondsLeft > 0) {
+                        player.sendMessage(ChatColor.RED + getConfig().getString("cooldown-message").replace("%time%", String.valueOf(secondsLeft)));
+                        return true;
+                    }
                 }
-            }
 
-            teleportPlayerRandomly(player);
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("command-message")));
+                teleportPlayerRandomly(player);
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("command-message")));
 
-            if (getConfig().getBoolean("cooldown.enabled")) {
-                cooldowns.put(player.getName(), System.currentTimeMillis());
+                if (getConfig().getBoolean("cooldown.enabled")) {
+                    cooldowns.put(player.getName(), System.currentTimeMillis());
+                }
             }
         }
 
