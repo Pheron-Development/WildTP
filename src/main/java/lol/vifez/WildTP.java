@@ -33,7 +33,7 @@ public class WildTP extends JavaPlugin implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            getLogger().info("only players can use this command!");
+            getLogger().info("Only players can use this command!");
             return true;
         }
 
@@ -45,7 +45,7 @@ public class WildTP extends JavaPlugin implements CommandExecutor {
                 return true;
             }
 
-            if (!player.isOp() || (getConfig().getBoolean("cooldown.bypass-for-operators") && player.isOp()) || player.hasPermission(getConfig().getString("bypass-cooldown-permission"))) {
+            if (!player.isOp() || (getConfig().getBoolean("cooldown.bypass-for-operators") && getConfig().getBoolean("allow-op-bypass-cooldown")) || player.hasPermission(getConfig().getString("bypass-cooldown-permission"))) {
                 if (getConfig().getBoolean("cooldown.enabled") && cooldowns.containsKey(player.getName())) {
                     long secondsLeft = ((cooldowns.get(player.getName()) / 1000) + getConfig().getInt("cooldown.time")) - (System.currentTimeMillis() / 1000);
                     if (secondsLeft > 0) {
